@@ -6,14 +6,10 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('pengajuan_akta_kematian', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('id_pengajuan')->constrained('pengajuans')->onDelete('cascade');
+            $table->foreignId('id_pengajuan')->constrained('pengajuan');
             $table->string('nama_lengkap');
             $table->string('alamat');
             $table->string('gambar_formulir');
@@ -21,13 +17,9 @@ return new class extends Migration
             $table->string('gambar_surat_nikah');
             $table->string('gambar_kk');
             $table->string('gambar_ktp');
-            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('pengajuan_akta_kematian');
