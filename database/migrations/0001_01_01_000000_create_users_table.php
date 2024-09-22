@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->enum('jenis_pengguna', ['admin', 'warga']);
+            $table->enum('jenis_pengguna', ['warga', 'admin']);
             $table->string('nama_lengkap');
             $table->string('email')->unique();
             $table->string('alamat');

@@ -19,11 +19,19 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
-            return redirect()->route('home');
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return redirect()->back()->with('error', 'Email not found.');
         }
 
-        return redirect()->back()->with('error', 'Email or Password is incorrect.');
+        if (Hash::check($request->password, $user->password)) {
+            // Password matches
+            Auth::login($user);
+            return redirect()->route('home');
+        } else {
+            // Password does not match
+            return redirect()->back()->with('error', 'Password is incorrect.');
+        }
     }
 
     public function home()
@@ -61,7 +69,7 @@ class AuthController extends Controller
             'nama_lengkap' => $request->nama_lengkap,
             'email' => $request->email,
             'alamat' => $request->alamat,
-            'password' => Hash::make($request->password),
+            'password' => $request->password,
         ]);
 
         // Login the user
